@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Registro #{{ r[0] }} - Skinet</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container py-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">✏️ Editar Registro #{{ r[0] }}</h4>
+            </div>
+            <div class="card-body">
+                <form action="/editar/{{ r[0] }}" method="POST">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Fecha</label>
+                            <input type="date" name="fecha" class="form-control" value="{{ r[1] }}" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Sede</label>
+                            <select name="sede" class="form-select" required>
+                                {% for s in sedes %}
+                                <option value="{{ s }}" {% if s == r[2] %}selected{% endif %}>{{ s }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-label">Técnico Asignado</label>
+                            <input type="text" name="tecnico" class="form-control" value="{{ r[3] }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Cliente / Proyecto</label>
+                            <input type="text" name="cliente" class="form-control" value="{{ r[4] }}" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Tipo de Actividad</label>
+                            <select name="tipo_actividad" class="form-select">
+                                {% for a in actividades %}
+                                <option value="{{ a }}" {% if a == r[5] %}selected{% endif %}>{{ a }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Sistema</label>
+                            <select name="sistema" class="form-select">
+                                {% for sys in sistemas %}
+                                <option value="{{ sys }}" {% if sys == r[6] %}selected{% endif %}>{{ sys }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Equipos / Kit Llevados</label>
+                            <input type="text" name="equipos" class="form-control" value="{{ r[7] }}" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Hora Inicio</label>
+                            <input type="time" name="hora_inicio" class="form-control" value="{{ r[8] }}" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Hora Fin</label>
+                            <input type="time" name="hora_fin" class="form-control" value="{{ r[9] }}" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Llamada VB</label>
+                            <select name="llamada_vb" class="form-select" required>
+                                <option value="SI" {% if r[11] == 'SI' %}selected{% endif %}>SI</option>
+                                <option value="NO" {% if r[11] == 'NO' %}selected{% endif %}>NO</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">N° OT / Ticket</label>
+                            <input type="text" name="ticket_ot" class="form-control" value="{{ r[12] }}">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Estado Final</label>
+                            <select name="estado_final" class="form-select">
+                                {% for e in estados %}
+                                <option value="{{ e }}" {% if e == r[13] %}selected{% endif %}>{{ e }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="form-label">Observaciones</label>
+                            <input type="text" name="observaciones" class="form-control" value="{{ r[14] }}">
+                        </div>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <a href="/dashboard?fecha={{ r[1] }}" class="btn btn-secondary me-2">Cancelar</a>
+                        <button type="submit" class="btn btn-warning px-4">💾 Actualizar Registro</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

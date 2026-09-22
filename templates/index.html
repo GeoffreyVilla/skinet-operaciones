@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Campo - Skinet Operaciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container py-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">📋 Control Diario de Operaciones de Campo (10 Sedes)</h4>
+            </div>
+            <div class="card-body">
+                <form action="/guardar" method="POST">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Fecha</label>
+                            <input type="date" name="fecha" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Sede</label>
+                            <select name="sede" class="form-select" required>
+                                {% for s in sedes %}
+                                <option value="{{ s }}">{{ s }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-label">Técnico Asignado</label>
+                            <input type="text" name="tecnico" class="form-control" placeholder="Nombre completo" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Cliente / Proyecto / Ubicación</label>
+                            <input type="text" name="cliente" class="form-control" placeholder="Ej. Fundo El Sol" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Tipo de Actividad</label>
+                            <select name="tipo_actividad" class="form-select">
+                                {% for a in actividades %}
+                                <option value="{{ a }}">{{ a }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Sistema</label>
+                            <select name="sistema" class="form-select">
+                                {% for sys in sistemas %}
+                                <option value="{{ sys }}">{{ sys }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Equipos / Kit de Materiales Llevados</label>
+                            <input type="text" name="equipos" class="form-control" placeholder="Ej. Inversor Híbrido 5kW + Batería Litio + 6 Paneles 550W" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Hora Inicio</label>
+                            <input type="time" name="hora_inicio" class="form-control" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Hora Fin</label>
+                            <input type="time" name="hora_fin" class="form-control" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Llamada Visto Bueno (VB)</label>
+                            <select name="llamada_vb" class="form-select" required>
+                                <option value="SI">SI</option>
+                                <option value="NO">NO</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">N° OT / Ticket</label>
+                            <input type="text" name="ticket_ot" class="form-control" placeholder="Ej. OT-9912">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Estado Final</label>
+                            <select name="estado_final" class="form-select">
+                                <option value="Finalizado Conforme">Finalizado Conforme</option>
+                                <option value="Pendiente Visto Bueno">Pendiente Visto Bueno</option>
+                                <option value="Incompleto / Faltan Equipos">Incompleto / Faltan Equipos</option>
+                                <option value="Reprogramado">Reprogramado</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="form-label">Observaciones / Pendientes</label>
+                            <input type="text" name="observaciones" class="form-control" placeholder="Detalles de la prueba o requerimientos">
+                        </div>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <button type="submit" class="btn btn-success px-4">💾 Guardar Registro</button>
+                        <a href="/dashboard" class="btn btn-secondary ms-2">📊 Ver Registros</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

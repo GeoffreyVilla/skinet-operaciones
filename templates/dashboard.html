@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Operaciones - Skinet</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container-fluid py-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>📊 Control Diario de Campo</h2>
+            <div>
+                <a href="/" class="btn btn-outline-primary me-2">+ Nuevo Registro</a>
+                <a href="/exportar_excel?fecha={{ fecha_filtro }}" class="btn btn-success">📥 Descargar Excel del Día</a>
+            </div>
+        </div>
+
+        <form method="GET" action="/dashboard" class="row g-2 mb-3 align-items-center">
+            <div class="col-auto">
+                <label class="form-label mb-0 fw-bold">Filtrar Fecha:</label>
+            </div>
+            <div class="col-auto">
+                <input type="date" name="fecha" class="form-control" value="{{ fecha_filtro }}">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </form>
+
+        <div class="table-responsive bg-white shadow-sm rounded">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Sede</th>
+                        <th>Técnico</th>
+                        <th>Cliente</th>
+                        <th>Actividad</th>
+                        <th>Sistema</th>
+                        <th>Horas</th>
+                        <th>Llamada VB</th>
+                        <th>Estado</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in registros %}
+                    <tr>
+                        <td><strong>{{ r[0] }}</strong></td>
+                        <td>{{ r[2] }}</td>
+                        <td>{{ r[3] }}</td>
+                        <td>{{ r[4] }}</td>
+                        <td>{{ r[5] }}</td>
+                        <td><span class="badge bg-info text-dark">{{ r[6] }}</span></td>
+                        <td>{{ r[10] }} hrs</td>
+                        <td>
+                            {% if r[11] == 'SI' %}
+                            <span class="badge bg-success">SI</span>
+                            {% else %}
+                            <span class="badge bg-danger">NO</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ r[13] }}</td>
+                        <td class="text-center">
+                            <a href="/editar/{{ r[0] }}" class="btn btn-sm btn-warning me-1">✏️ Editar</a>
+                            <form action="/eliminar/{{ r[0] }}" method="POST" class="d-inline" onsubmit="return confirm('¿Seguro que deseas borrar este registro?');">
+                                <input type="hidden" name="fecha_filtro" value="{{ fecha_filtro }}">
+                                <button type="submit" class="btn btn-sm btn-danger">🗑️ Borrar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="10" class="text-center text-muted py-4">No hay registros guardados para esta fecha.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
